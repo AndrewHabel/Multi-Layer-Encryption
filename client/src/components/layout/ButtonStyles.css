@@ -1,0 +1,125 @@
+/* Button Styles for Encryption App */
+
+.encrypt-button, .decrypt-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+}
+
+.encrypt-button {
+  background-color: #4a6fa5;
+  color: white;
+}
+
+.encrypt-button:hover:not(:disabled) {
+  background-color: #3a5a8a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.decrypt-button {
+  background-color: #44a1a0;
+  color: white;
+}
+
+.decrypt-button:hover:not(:disabled) {
+  background-color: #368a89;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.clear-all-button {
+  background-color: #6c757d;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+}
+
+.clear-all-button:hover:not(:disabled) {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode Button Styles */
+.dark-mode .encrypt-button {
+  background-color: #166088;
+  border: 1px solid #26456e;
+  color: #e6e6e6;
+}
+
+.dark-mode .encrypt-button:hover:not(:disabled) {
+  background-color: #0d4d6d;
+}
+
+.dark-mode .decrypt-button {
+  background-color: #368a89;
+  border: 1px solid #26456e;
+  color: #e6e6e6;
+}
+
+.dark-mode .decrypt-button:hover:not(:disabled) {
+  background-color: #2d7372;
+}
+
+.dark-mode .clear-all-button {
+  background-color: #444;
+  border: 1px solid #26456e;
+  color: #e6e6e6;
+}
+
+.dark-mode .clear-all-button:hover:not(:disabled) {
+  background-color: #333;
+}
+
+/* Disabled state */
+.encrypt-button:disabled, 
+.decrypt-button:disabled, 
+.clear-all-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Button container */
+.action-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .action-buttons-container {
+    flex-direction: column;
+  }
+  
+  .encrypt-button,
+  .decrypt-button,
+  .clear-all-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

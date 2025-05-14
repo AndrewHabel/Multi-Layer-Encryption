@@ -1,0 +1,534 @@
+/* Cryptanalysis Container */
+.cryptanalysis-container {
+  background-color: var(--card-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.dark-mode .cryptanalysis-container {
+  background-color: var(--dark-card);
+  border: 1px solid var(--dark-border);
+}
+
+/* Header */
+.cryptanalysis-header {
+  margin-bottom: 2rem;
+}
+
+.cryptanalysis-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.dark-mode .cryptanalysis-header h2 {
+  color: var(--accent-color);
+}
+
+.cryptanalysis-description {
+  color: var(--text-color);
+  opacity: 0.8;
+  font-size: 1rem;
+}
+
+.dark-mode .cryptanalysis-description {
+  color: var(--dark-text);
+}
+
+/* Form */
+.cryptanalysis-form {
+  margin-bottom: 2rem;
+}
+
+/* Algorithm Selection */
+.algorithm-selection {
+  margin-bottom: 1.5rem;
+}
+
+.algorithm-selection label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.algorithm-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.algorithm-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.algorithm-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.algorithm-button.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.dark-mode .algorithm-button {
+  background-color: var(--dark-background);
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+.dark-mode .algorithm-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.dark-mode .algorithm-button.active {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+/* Input Area */
+.input-area {
+  margin-bottom: 1.5rem;
+}
+
+.input-area label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input-area textarea {
+  border-radius: 6px;
+  padding: 1rem;
+  width: 100%;
+}
+
+/* Actions */
+.cryptanalysis-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.analyze-button, .clear-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+}
+
+.analyze-button {
+  background-color: var(--primary-color);
+  color: white;
+  flex-grow: 1;
+}
+
+.analyze-button:hover:not(:disabled) {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.clear-button {
+  background-color: var(--text-color);
+  color: white;
+}
+
+.clear-button:hover:not(:disabled) {
+  background-color: #555;
+  transform: translateY(-2px);
+}
+
+.dark-mode .analyze-button {
+  background-color: var(--secondary-color);
+}
+
+.dark-mode .analyze-button:hover:not(:disabled) {
+  background-color: #0d4d6d;
+}
+
+.dark-mode .clear-button {
+  background-color: #444;
+}
+
+.dark-mode .clear-button:hover:not(:disabled) {
+  background-color: #333;
+}
+
+/* Results */
+.cryptanalysis-results {
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.dark-mode .cryptanalysis-results {
+  background-color: rgba(22, 33, 62, 0.5);
+  border-color: var(--dark-border);
+}
+
+.results-title {
+  padding: 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.dark-mode .results-title {
+  background-color: var(--secondary-color);
+}
+
+.results-content {
+  padding: 1.5rem;
+}
+
+/* Results Actions */
+.results-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.copy-results-button {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copy-results-button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Analysis Section */
+.analysis-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dark-mode .analysis-section {
+  border-color: var(--dark-border);
+}
+
+.analysis-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.dark-mode .section-title {
+  color: var(--accent-color);
+}
+
+/* Data Row */
+.data-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+  align-items: flex-start;
+}
+
+.data-label {
+  font-weight: 500;
+  color: var(--text-color);
+  flex: 0 0 180px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dark-mode .data-label {
+  color: var(--dark-text);
+}
+
+.data-value {
+  flex: 1;
+}
+
+.data-icon, .section-icon {
+  color: var(--primary-color);
+}
+
+.dark-mode .data-icon, 
+.dark-mode .section-icon {
+  color: var(--accent-color);
+}
+
+/* Frequency Chart */
+.frequency-chart {
+  margin: 1rem 0;
+}
+
+.chart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.chart-label {
+  flex: 0 0 30px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.chart-bar-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 25px;
+}
+
+.chart-bar {
+  background-color: var(--primary-color);
+  height: 20px;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.dark-mode .chart-bar {
+  background-color: var(--secondary-color);
+}
+
+.chart-value {
+  margin-left: 10px;
+  font-size: 0.85rem;
+}
+
+/* Entropy Meter */
+.entropy-meter {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--card-color);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.dark-mode .entropy-meter {
+  background-color: rgba(22, 33, 62, 0.7);
+  border-color: var(--dark-border);
+}
+
+.entropy-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.entropy-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dark-mode .entropy-bar-container {
+  background-color: #333;
+}
+
+.entropy-bar {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 10px;
+}
+
+.entropy-bar.low {
+  background-color: #ffc107;
+}
+
+.entropy-bar.medium {
+  background-color: #17a2b8;
+}
+
+.entropy-bar.high {
+  background-color: #28a745;
+}
+
+/* Recommendations */
+.recommendations-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.recommendation-item {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.recommendation-icon {
+  color: #28a745;
+  margin-top: 0.25rem;
+}
+
+.dark-mode .recommendation-icon {
+  color: #5cb85c;
+}
+
+/* Autokey specific */
+.ic-score {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ic-value {
+  font-weight: 600;
+  margin: 0 0.5rem;
+}
+
+.ic-high {
+  color: #28a745;
+}
+
+.ic-medium {
+  color: #17a2b8;
+}
+
+.ic-low {
+  color: #ffc107;
+}
+
+.ic-interpretation {
+  opacity: 0.7;
+}
+
+.freq-note, .key-note {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+.key-possibilities {
+  display: flex;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.key-label {
+  font-weight: 500;
+}
+
+.key-letters {
+  background-color: var(--background-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+.dark-mode .key-letters {
+  background-color: rgba(26, 26, 46, 0.7);
+}
+
+.repeating-sequences-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.repeating-sequences-table th,
+.repeating-sequences-table td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dark-mode .repeating-sequences-table th,
+.dark-mode .repeating-sequences-table td {
+  border-color: var(--dark-border);
+}
+
+.repeating-sequences-table th {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-weight: 500;
+}
+
+.dark-mode .repeating-sequences-table th {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Tips */
+.tips-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.tips-list li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .algorithm-buttons {
+    flex-direction: column;
+  }
+  
+  .data-row {
+    flex-direction: column;
+  }
+  
+  .data-label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .key-possibilities {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cryptanalysis-actions {
+    flex-direction: column;
+  }
+  
+  .clear-button, .analyze-button {
+    width: 100%;
+  }
+  
+  .entropy-bar-container {
+    height: 15px;
+  }
+}
