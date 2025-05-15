@@ -28,6 +28,31 @@
   box-sizing: border-box;
 }
 
+/* Key validation styles */
+.key-validation-icon {
+  margin-left: 8px;
+}
+
+.valid-key {
+  border-color: var(--success-color) !important;
+  box-shadow: 0 0 0 1px var(--success-color) !important;
+}
+
+.invalid-key {
+  border-color: var(--warning-color) !important;
+  box-shadow: 0 0 0 1px var(--warning-color) !important;
+}
+
+.key-validation-hint {
+  font-size: 0.8rem;
+  color: var(--warning-color);
+  margin-top: 4px;
+}
+
+.dark-mode .key-validation-hint {
+  color: #ffd54f;
+}
+
 body {
   font-family: 'Segoe UI', 'Roboto', sans-serif;
   line-height: 1.6;

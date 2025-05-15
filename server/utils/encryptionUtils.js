@@ -4,18 +4,20 @@ const JSEncrypt = require('node-jsencrypt');
 /**
  * AES Encryption Implementation
  */
-const aesEncrypt = (text, key, keySize, mode) => {
-  try {
+const aesEncrypt = (text, key, keySize, mode) => {  try {
     // Normalize key size
     const keySizeBits = parseInt(keySize);
     const keySizeBytes = keySizeBits / 8;
     
+    // Check if key length matches required length for chosen key size
+    const requiredLength = keySizeBytes;
+    
     // Pad or truncate the key to the correct length
     let normalizedKey = key;
-    while (normalizedKey.length * 2 < keySizeBytes) {
+    while (normalizedKey.length < requiredLength) {
       normalizedKey += key;
     }
-    normalizedKey = normalizedKey.substring(0, keySizeBytes);
+    normalizedKey = normalizedKey.substring(0, requiredLength);
     
     // Convert to WordArray
     const keyWordArray = CryptoJS.enc.Utf8.parse(normalizedKey);
@@ -82,8 +84,7 @@ const aesEncrypt = (text, key, keySize, mode) => {
 /**
  * AES Decryption Implementation
  */
-const aesDecrypt = (ciphertext, key, keySize, mode) => {
-  try {
+const aesDecrypt = (ciphertext, key, keySize, mode) => {  try {
     // Special handling for multi-layer decryption
     let cleanedCiphertext = ciphertext;
     
@@ -91,12 +92,15 @@ const aesDecrypt = (ciphertext, key, keySize, mode) => {
     const keySizeBits = parseInt(keySize);
     const keySizeBytes = keySizeBits / 8;
     
+    // Check if key length matches required length for chosen key size
+    const requiredLength = keySizeBytes;
+    
     // Pad or truncate the key to the correct length
     let normalizedKey = key;
-    while (normalizedKey.length * 2 < keySizeBytes) {
+    while (normalizedKey.length < requiredLength) {
       normalizedKey += key;
     }
-    normalizedKey = normalizedKey.substring(0, keySizeBytes);
+    normalizedKey = normalizedKey.substring(0, requiredLength);
     
     // Convert key to WordArray
     const keyWordArray = CryptoJS.enc.Utf8.parse(normalizedKey);
@@ -303,21 +307,28 @@ const autokeyEncrypt = (text, key) => {
 /**
  * Raw Autokey Encryption Implementation
  */
-const encryptAutokeyRaw = (text, key) => {
-  // Normalize key and text (remove non-alphabetic characters and convert to uppercase)
-  const normalizedKey = key.toUpperCase().replace(/[^A-Z]/g, '');
-  const normalizedText = text.toUpperCase().replace(/[^A-Z]/g, '');
-  
-  if (normalizedKey.length === 0) {
-    throw new Error('Invalid Autokey cipher key');
+const encryptAutokeyRaw = (text, key) => {  // Parse numeric key
+  const numKey = parseInt(key);
+  if (isNaN(numKey)) {
+    throw new Error('Autokey cipher requires a valid numeric value');
   }
+  
+  // Convert number to a letter by taking modulo 26 and adding 65 (ASCII for 'A')
+  // This ensures any numeric value can be used as a key
+  // For example: 1 -> 'A', 2 -> 'B', 27 -> 'A', -3 -> 'W'
+  const modKey = ((numKey % 26) + 26) % 26; // Handles negative numbers
+  const actualKey = modKey === 0 ? 26 : modKey; // 0 becomes 26 ('Z')
+  const keyLetter = String.fromCharCode(actualKey + 64); // 1->A, 2->B, etc.
+  
+  // Normalize text (remove non-alphabetic characters and convert to uppercase)
+  const normalizedText = text.toUpperCase().replace(/[^A-Z]/g, '');
   
   if (normalizedText.length === 0) {
     return text; // Return original if no alphabetic characters
   }
   
   let result = '';
-  let fullKey = normalizedKey + normalizedText;
+  let fullKey = keyLetter + normalizedText;
   
   // Encrypt each character
   for (let i = 0; i < normalizedText.length; i++) {
@@ -378,9 +389,17 @@ const autokeyDecrypt = (text, key) => {
 /**
  * Raw Autokey Decryption Implementation
  */
-const decryptAutokeyRaw = (text, key) => {
-  // Normalize key (remove non-alphabetic characters and convert to uppercase)
-  const normalizedKey = key.toUpperCase().replace(/[^A-Z]/g, '');
+const decryptAutokeyRaw = (text, key) => {  // Parse numeric key
+  const numKey = parseInt(key);
+  if (isNaN(numKey)) {
+    throw new Error('Autokey cipher requires a valid numeric value');
+  }
+  
+  // Convert number to a letter by taking modulo 26 and adding 65 (ASCII for 'A')
+  // This ensures any numeric value can be used as a key
+  const modKey = ((numKey % 26) + 26) % 26; // Handles negative numbers
+  const actualKey = modKey === 0 ? 26 : modKey; // 0 becomes 26 ('Z')
+  const normalizedKey = String.fromCharCode(actualKey + 64); // 1->A, 2->B, etc.
   
   if (normalizedKey.length === 0) {
     throw new Error('Invalid Autokey cipher key');

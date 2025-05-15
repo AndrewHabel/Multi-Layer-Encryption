@@ -89,26 +89,27 @@ const autokeyAnalysis = (ciphertext) => {
     // Kasiski examination for repeating sequences
     const repeats = findRepeatingSequences(cleanText);
     
-    // Most common English letters
-    const commonLetters = ['E', 'T', 'A', 'O', 'I', 'N'];
+    // Most common English letters    const commonLetters = ['E', 'T', 'A', 'O', 'I', 'N'];
     
-    // Generate possible first letters of the key based on most common ciphertext letters
-    const possibleKeyLetters = [];
+    // Generate possible numeric key values based on most common ciphertext letters
+    const possibleKeyValues = [];
     
     freqAnalysis.frequencies.slice(0, 6).forEach(item => {
       commonLetters.forEach(letter => {
-        // Calculate potential key letter using Vigenère/Autokey formula in reverse
-        let potentialKey = String.fromCharCode(
+        // Calculate potential key number using Vigenère/Autokey formula in reverse
+        let potentialKeyChar = String.fromCharCode(
           ((item.character.charCodeAt(0) - letter.charCodeAt(0) + 26) % 26) + 65
         );
-        possibleKeyLetters.push(potentialKey);
+        // Convert letter (A-Z) to number (1-26)
+        let potentialKeyValue = potentialKeyChar.charCodeAt(0) - 64; // A=1, B=2, etc.
+        possibleKeyValues.push(potentialKeyValue);
       });
     });
     
     // Return analysis results
     return {
       keyCharacteristics: {
-        possibleFirstLetters: Array.from(new Set(possibleKeyLetters)),
+        possibleKeyValues: Array.from(new Set(possibleKeyValues)).filter(val => val >= 1 && val <= 25),
         estimatedLength: "Unknown (Autokey uses plaintext as part of the key)"
       },
       frequencies: freqAnalysis.frequencies.slice(0, 10),

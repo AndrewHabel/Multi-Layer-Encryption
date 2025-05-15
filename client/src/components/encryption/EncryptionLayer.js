@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ const EncryptionLayer = ({ layer, index, updateLayer, action }) => {
   const [showRSAGeneration, setShowRSAGeneration] = useState(false);
   const [generatingKeys, setGeneratingKeys] = useState(false);
   const [keySize, setKeySize] = useState('2048');
+  const [isKeyValid, setIsKeyValid] = useState(false);
 
   // Handle algorithm change
   const handleAlgorithmChange = (e) => {
@@ -34,6 +35,20 @@ const EncryptionLayer = ({ layer, index, updateLayer, action }) => {
     setShowKeyFields(algorithm !== 'none');
     setShowRSAGeneration(algorithm === 'rsa');
   };
+  // Validate AES key length based on key size
+  const validateAESKey = (key, keySize) => {
+    if (!key) return false;
+    
+    const requiredLength = keySize === '128' ? 16 : keySize === '192' ? 24 : 32;
+    return key.length === requiredLength;
+  };
+
+  // Effect to validate key when key or keySize changes
+  useEffect(() => {
+    if (layer.algorithm === 'aes') {
+      setIsKeyValid(validateAESKey(layer.key, layer.keySize));
+    }
+  }, [layer.key, layer.keySize]);
 
   // Handle generic change for most fields
   const handleChange = (e) => {
@@ -90,10 +105,18 @@ const EncryptionLayer = ({ layer, index, updateLayer, action }) => {
           <div className="layer-fields">
             {/* AES-specific fields */}
             {layer.algorithm === 'aes' && (
-              <>
-                <div className="field-group">
+              <>                <div className="field-group">
                   <label htmlFor={`key-${index}`}>
                     <FontAwesomeIcon icon="key" /> AES Key:
+                    {layer.key && (
+                      <span className="key-validation-icon">
+                        {isKeyValid ? (
+                          <FontAwesomeIcon icon="check-circle" style={{ color: 'green' }} />
+                        ) : (
+                          <FontAwesomeIcon icon="exclamation-triangle" style={{ color: 'orange' }} />
+                        )}
+                      </span>
+                    )}
                   </label>
                   <input
                     type="password"
@@ -101,8 +124,15 @@ const EncryptionLayer = ({ layer, index, updateLayer, action }) => {
                     name="key"
                     value={layer.key}
                     onChange={handleChange}
-                    placeholder="Enter encryption key"
+                    placeholder={`Enter ${layer.keySize === '128' ? '16' : layer.keySize === '192' ? '24' : '32'} characters`}
+                    className={layer.key ? (isKeyValid ? "valid-key" : "invalid-key") : ""}
                   />
+                  {layer.key && !isKeyValid && (
+                    <p className="key-validation-hint">
+                      <FontAwesomeIcon icon="info-circle" /> 
+                      Key must be exactly {layer.keySize === '128' ? '16' : layer.keySize === '192' ? '24' : '32'} characters long
+                    </p>
+                  )}
                 </div>
                 
                 <div className="field-group">
@@ -216,25 +246,22 @@ const EncryptionLayer = ({ layer, index, updateLayer, action }) => {
                   )}
                 </div>
               </>
-            )}
-            
-            {/* Autokey Cipher fields */}
-            {layer.algorithm === 'autokey' && (
-              <div className="field-group">
+            )}              {/* Autokey Cipher fields */}
+            {layer.algorithm === 'autokey' && (              <div className="field-group">
                 <label htmlFor={`key-${index}`}>
-                  <FontAwesomeIcon icon="key" /> Autokey:
+                  <FontAwesomeIcon icon="key" /> Autokey Key:
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   id={`key-${index}`}
                   name="key"
                   value={layer.key}
                   onChange={handleChange}
-                  placeholder="Enter alphabetic key"
+                  placeholder="Enter any numeric value"
                 />
                 <p className="key-note">
                   <FontAwesomeIcon icon="info-circle" /> 
-                  Autokey cipher requires an alphabetic key (A-Z only)
+                  Enter any numeric value as the cipher key
                 </p>
               </div>
             )}

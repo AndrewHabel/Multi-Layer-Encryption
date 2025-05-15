@@ -66,11 +66,16 @@ const EncryptDecrypt = () => {
           setError(`Layer ${i+1}: RSA decryption requires a private key`);
           return;
         }
-      }
-      
-      if (layer.algorithm === 'autokey' && !layer.key) {
-        setError(`Layer ${i+1}: Autokey cipher requires a key`);
-        return;
+      }        if (layer.algorithm === 'autokey') {
+        if (!layer.key) {
+          setError(`Layer ${i+1}: Autokey cipher requires a numeric key`);
+          return;
+        }
+        const numKey = parseInt(layer.key);
+        if (isNaN(numKey)) {
+          setError(`Layer ${i+1}: Autokey cipher requires a valid numeric value`);
+          return;
+        }
       }
     }
     

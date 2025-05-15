@@ -39,10 +39,19 @@ const processData = (req, res) => {
       }
       
       // Process based on algorithm
-      switch(layer.algorithm) {
-        case 'aes':
+      switch(layer.algorithm) {        case 'aes':
           if (!layer.key) {
             return res.status(400).json({ error: `AES key is required for Layer ${i + 1}` });
+          }
+          
+          // Validate key length based on key size
+          const keySizeBits = parseInt(layer.keySize);
+          const requiredLength = keySizeBits / 8; // 128-bit -> 16 chars, 192-bit -> 24 chars, 256-bit -> 32 chars
+          
+          if (layer.key.length !== requiredLength) {
+            return res.status(400).json({ 
+              error: `AES key must be exactly ${requiredLength} characters for ${keySizeBits}-bit encryption (Layer ${i + 1})` 
+            });
           }
           
           steps.push(`Processing Layer ${i + 1}: AES ${layer.mode} ${action}`);
@@ -112,16 +121,15 @@ const processData = (req, res) => {
               steps.push(`Normalized RSA output for ${layers[i-1].algorithm} decryption`);
             }
           }
-          break;
-          
-        case 'autokey':
+          break;        case 'autokey':
           if (!layer.key) {
             return res.status(400).json({ error: `Autokey cipher key is required for Layer ${i + 1}` });
           }
           
-          if (!layer.key.match(/^[a-zA-Z]+$/)) {
+          const numKey = parseInt(layer.key);
+          if (isNaN(numKey)) {
             return res.status(400).json({ 
-              error: `Autokey cipher key should contain only alphabetic characters (Layer ${i + 1})`
+              error: `Autokey cipher key should be a valid numeric value (Layer ${i + 1})`
             });
           }
           
